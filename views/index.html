@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href="/public/lib/bootstrap/css/bootstrap.css" />
+    <link rel='stylesheet' href="/public/stylesheets/style.css" />
+  </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script>
+	$(document).ready(function(){
+	  $("#hide").click(function(){
+	  $(".other").hide();
+	  $(".main").show();
+	  });
+	  $("#show").click(function(){
+	  $(".other").show();
+	  $(".main").hide();
+	  });
+	  $("#reload").click(function(){
+	  window.location.reload(true);
+	  });
+
+
+
+	});
+  </script>
+  <body>
+  <div class="row-fluid">
+      <ul class="nav nav-tabs">
+          <li class="active"><a href="#build_tab" data-toggle="tab">帐号</a></li>
+          <li class="active"><a href="#build_tab" data-toggle="tab">其他</a></li>
+      </ul>
+
+      <div class="span12 tab-content">
+          <div class="tab-pane active" id="build_tab">
+              <div class="well well-small">用户：<%= user_name %> 总瞄币：<span class="J-money">99999</span>&nbsp;&nbsp;&nbsp;
+			  <button id="hide" type="button">粮草/功勋/是否可交易</button>&nbsp;&nbsp;&nbsp;
+			  <button id="show" type="button">建筑/资源</button>&nbsp;&nbsp;&nbsp;
+			  <button id="reload" type="button">刷新页面</button>
+			  </div>
+
+              <table id="accountListTb" class="table table-bordered">
+                  <thead>
+                      <tr>
+                          <th>帐号</th>
+                          <th class="main">用户名</th>
+                          <th class="main">瞄币</th>
+                          <th class="main">粮草 (最大值)</th>
+                          <th class="main">部队功勋 (出征消耗)</th>
+						  <th class="main">是否可交易</th>
+						  <th class="main">生命值</th>
+						  <th class="other" style="display:none;">已完成建筑</th>
+						  <th class="other" style="display:none;">资源概况</th>
+                          <th class="other" style="display:none;">上一次执行命令时间</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  <% if (accountList.length>0) { %>
+                      <% accountList.forEach(function(account,index){  %>
+                         <tr data-id="<%= account['account_id'] %>">
+                             <td data-field="name" data-type="<%= account['type'] %>" class="account_type_<%= account['type'] %>"><%= account["account_name"] %> </td>
+                             <td class="main"><%= account["account_gamename"] %></td>
+                             <td class="main" data-field="money"><%= account["account_money"] %></td>
+                             <td class="main"><%= account["account_food"] %>&nbsp;&nbsp;(<%= account["account_maxfood"] %>)</td>
+                             <td class="main J_army"><%= account["account_army"] %></td>
+							 <td class="main"><%= account["account_trade"] %></td>
+							 <td class="main"><%= account["account_blood"] %></td>
+							 <td class="other J_build" style="display:none;"><%= account["account_builded"] %></td>
+							 <td class="other J_resources" style="display:none;"><%= account["account_resources"] %></td>
+                             <td class="other" style="display:none;"><%= account["account_lasttime"] %></td>
+                         </tr>
+                      <% }) %>
+                  <% } %>
+                  </tbody>
+              </table>
+              <div class="well well-small">用户：<%= user_name %> 总瞄币：<span class="J-money">99999</span></div>
+          </div>
+      </div>
+  </div>
+
+
+  <script src="/public/lib/jquery.js"></script>
+  <script src="/public/lib/bootstrap/js/bootstrap.js"></script>
+  <script src="/public/javascripts/index.js"></script>
+
+  </body>
+</html>

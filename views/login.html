@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href="/public/lib/bootstrap/css/bootstrap.css" />
+    <script src="/public/lib/jquery.js"></script>
+    <script src="/public/lib/bootstrap/js/bootstrap.js"></script>
+  </head>
+  <body>
+  <form action="/login" method="post">
+      <div class="row-fluid">
+          <div class="span12 tab-content">
+              <div class="well well-small">
+                  <label for="username">用户名：</label><input name="username" type="text" id="username"/>
+                  <label for="psw">密码</label><input type="password" name="psw" id="psw"/>
+                    <button>提交</button>
+
+              </div>
+          </div>
+      </div>
+  </form>
+
+
+<%include modules/footer.html %>
+
+
+  </body>
+</html>
