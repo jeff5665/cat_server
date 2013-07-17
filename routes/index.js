@@ -21,6 +21,23 @@ function needLogin(req,res,next){
     next();
 }
 
+/**
+ * 获取客户端IP
+ * @param req
+ * @returns {*}
+ */
+function getClientIp(req) {
+    var ipAddress;
+    var forwardedIpsStr = req.header('x-forwarded-for');
+    if (forwardedIpsStr) {
+        var forwardedIps = forwardedIpsStr.split(',');
+        ipAddress = forwardedIps[0];
+    }
+    if (!ipAddress) {
+        ipAddress = req.connection.remoteAddress;
+    }
+    return ipAddress;
+};
 
 module.exports = function(app){
     app.get('/login',needNotLogin);
@@ -108,6 +125,7 @@ module.exports = function(app){
          account_lasttime:req.body.lasttime,
          user_id:req.body.user_id,
          type:req.body.type||0
+             //ip: getClientIp(req)    这里可以这样来获取客户端IP
          });
 
         Account.save(account,function(msg){
