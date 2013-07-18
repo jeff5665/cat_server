@@ -21,6 +21,23 @@ function needLogin(req,res,next){
     next();
 }
 
+/**
+ * 获取客户端IP
+ * @param req
+ * @returns {*}
+ */
+function getClientIp(req) {
+    var ipAddress;
+    var forwardedIpsStr = req.header('x-real-ip');
+    if (forwardedIpsStr) {
+        var forwardedIps = forwardedIpsStr.split(',');
+        ipAddress = forwardedIps[0];
+    }
+    if (!ipAddress) {
+        ipAddress = req.connection.remoteAddress;
+    }
+    return ipAddress;
+};
 
 module.exports = function(app){
     app.get('/login',needNotLogin);
@@ -76,6 +93,12 @@ module.exports = function(app){
         });
     });
 
+    app.post('/delete',function(req,res){//删除account  主要用于删除account中的数据
+        Account.delete(req.body.id,function(msg){
+            res.json({msg:msg});
+        });
+    });
+
     app.post('/step/update',function(req,res){//更新新手教程步骤
         var account={step:req.body.step};
         console.log(account,req.body.gamename);
@@ -94,28 +117,25 @@ module.exports = function(app){
 
     app.post('/save', function(req,res,next){//保存account 主要用于新增或者更新account表
 
-         var account=new Account({
-         account_name:req.body.name,
-         account_gamename:req.body.gamename,
-         account_money:req.body.money,
-         account_food:req.body.food,
-         account_maxfood:req.body.maxfood,
-         account_army:req.body.army,
-		 account_trade:req.body.trade,
-	     account_blood:req.body.blood,
-		 account_builded:req.body.builded,
-		 account_resources:req.body.resources,
-         account_lasttime:req.body.lasttime,
-         user_id:req.body.user_id,
-         type:req.body.type||0
-         });
+        var account=new Account({
+            account_name:req.body.name,
+            account_gamename:req.body.gamename,
+            account_money:req.body.money,
+            account_food:req.body.food,
+            account_maxfood:req.body.maxfood,
+            account_army:req.body.army,
+            account_trade:req.body.trade,
+            account_blood:req.body.blood,
+            account_builded:req.body.builded,
+            account_resources:req.body.resources,
+            account_lasttime:req.body.lasttime,
+            user_id:req.body.user_id,
+            type:req.body.type||0,
+            account_lastip: getClientIp(req)    //这里可以这样来获取客户端IP
+        });
 
         Account.save(account,function(msg){
             res.json({msg:msg});
         });
     });
 };
-
-
-
-
