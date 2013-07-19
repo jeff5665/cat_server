@@ -21,6 +21,17 @@
 	  });
 
 
+        $('.postDel').on('click',function(){
+            if (!confirm("确认要删除？")) {
+                window.event.returnValue = false;
+            }else{
+            var id=$(this).val();
+                console.log(id);
+            $.post('/delete',{id:id},function(){
+                window.location.reload(true);
+            });
+            }
+        });
 
 	});
   </script>
@@ -49,25 +60,31 @@
                           <th class="main">部队功勋 (出征消耗)</th>
 						  <th class="main">是否可交易</th>
 						  <th class="main">生命值</th>
+                          <th class="main">上一次执行IP地址</th>
 						  <th class="other" style="display:none;">已完成建筑</th>
 						  <th class="other" style="display:none;">资源概况</th>
-                          <th class="other" style="display:none;">上一次执行命令时间</th>
+                          <th class="main">上一次执行命令时间</th>
+                          <th class="other" style="display:none;">删除</th>
                       </tr>
                   </thead>
                   <tbody>
                   <% if (accountList.length>0) { %>
                       <% accountList.forEach(function(account,index){  %>
                          <tr data-id="<%= account['account_id'] %>">
-                             <td data-field="name" data-type="<%= account['type'] %>" class="account_type_<%= account['type'] %>"><%= account["account_name"] %> </td>
+                             <td data-field="name" data-type="<%= account['type'] %>" class="account_type_<%= account['type'] %>"><%= account["account_name"] %></td>
                              <td class="main"><%= account["account_gamename"] %></td>
                              <td class="main" data-field="money"><%= account["account_money"] %></td>
                              <td class="main"><%= account["account_food"] %>&nbsp;&nbsp;(<%= account["account_maxfood"] %>)</td>
                              <td class="main J_army"><%= account["account_army"] %></td>
 							 <td class="main"><%= account["account_trade"] %></td>
 							 <td class="main"><%= account["account_blood"] %></td>
+                             <td class="main"><%= account["account_lastip"] %></td>
 							 <td class="other J_build" style="display:none;"><%= account["account_builded"] %></td>
 							 <td class="other J_resources" style="display:none;"><%= account["account_resources"] %></td>
-                             <td class="other" style="display:none;"><%= account["account_lasttime"] %></td>
+                             <td class="main"><%= account["account_lasttime"] %></td>
+                             <td class="other" style="display:none;">
+                                <button type="button" value="<%= account['account_id'] %>" class="postDel" />删除</button>
+                             </td>
                          </tr>
                       <% }) %>
                   <% } %>

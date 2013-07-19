@@ -17,6 +17,7 @@ function Account(account){
 		this.account_blood=account.account_blood;
 		this.account_builded=account.account_builded;
 		this.account_resources=account.account_resources;
+        this.account_lastip=account.account_lastip;
         this.account_lasttime=account.account_lasttime;
         this.user_id=account.user_id;
 }
@@ -65,6 +66,15 @@ Account.update=function(account,account_id,callback){//更新
         console.log(result);
         if (err) throw err;
         callback("update success");
+    });
+};
+
+Account.delete=function(account_id,callback){//更新
+    var  sql="DELETE FROM `account` WHERE `account_id` = ?";
+    Db.query(sql,[account_id],function(err,result){
+        console.log(result);
+        if (err) throw err;
+        callback("delete success");
     });
 };
 
