@@ -110,6 +110,18 @@ $('.J_resources').each(function(){  //设置各个资源颜色
     $(this).html(str);
 });
 
+$('.postDel').on('click',function(){  //删除账号
+    if (!confirm("确认要删除？")) {
+        window.event.returnValue = false;
+    }else{
+        var id=$(this).val();
+        console.log(id);
+        $.post('/delete',{id:id},function(){
+            window.location.reload(true);
+        });
+    }
+});
+
 (function($){  //计算所有账号总喵喵点
     $(function(){
         var totalMoney=(function(){
@@ -135,8 +147,18 @@ $('.J_resources').each(function(){  //设置各个资源颜色
             $(this).data('type',reqData.type);//改变当前td上的type属性
             var $td=$(this);//$td指向当前点击td
             $.post('/update',reqData,function(msg){
-                $td.removeClass().addClass('account_type_'+reqData.type);
+                $td.removeClass().addClass('main'+' '+'account_type_'+reqData.type);
             });
-          });
+        });
+
+        $('#accountListTb').on('change','input[data-field="pc_group"]',function(e){//输入分组id改变pc_group字段
+            var reqData={
+                id: $(this).parents('tr').data('id'),
+                pc_group:  $(this).val()  //pc_group值等于输入的值
+            };
+            $.post('/update/group',reqData,function(msg){
+
+            });
+        });
     });
 })(jQuery);

@@ -19,6 +19,7 @@ function Account(account){
 		this.account_resources=account.account_resources;
         this.account_lastip=account.account_lastip;
         this.account_lasttime=account.account_lasttime;
+        this.pc_group=account.pc_group;
         this.user_id=account.user_id;
 }
 
