@@ -28,7 +28,7 @@ function needLogin(req,res,next){
  */
 function getClientIp(req) {
     var ipAddress;
-    var forwardedIpsStr = req.header('x-real-ip');
+    var forwardedIpsStr = req.header('x-forwarded-for');
     if (forwardedIpsStr) {
         var forwardedIps = forwardedIpsStr.split(',');
         ipAddress = forwardedIps[0];
@@ -93,6 +93,13 @@ module.exports = function(app){
         });
     });
 
+    app.post('/update/group',function(req,res){ //更新pc_group 主要用户更新account中的pc_group
+        var account={pc_group:req.body.pc_group};
+        Account.update(account,req.body.id,function(msg){
+            res.json({msg:msg});
+        });
+    });
+
     app.post('/delete',function(req,res){//删除account  主要用于删除account中的数据
         Account.delete(req.body.id,function(msg){
             res.json({msg:msg});
@@ -131,9 +138,9 @@ module.exports = function(app){
             account_lasttime:req.body.lasttime,
             user_id:req.body.user_id,
             type:req.body.type||0,
+            pc_group:req.body.pc_group,
             account_lastip: getClientIp(req)    //这里可以这样来获取客户端IP
         });
-
         Account.save(account,function(msg){
             res.json({msg:msg});
         });

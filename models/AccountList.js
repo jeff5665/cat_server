@@ -12,7 +12,7 @@ module.exports = AccountList;
 
 AccountList.get=function(user_id,callback){
     //根据session中的user_id查找account表中的记录
-    Db.query("SELECT * FROM account WHERE user_id= ?",user_id, function(err, results) {
+    Db.query("SELECT * FROM account WHERE user_id= ? order by `pc_group`,`account_id`",user_id, function(err, results) {
         if (err) throw err;
         callback(err,results);
     });
