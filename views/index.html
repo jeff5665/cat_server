@@ -19,20 +19,6 @@
 	  $("#reload").click(function(){
 	  window.location.reload(true);
 	  });
-
-
-        $('.postDel').on('click',function(){
-            if (!confirm("确认要删除？")) {
-                window.event.returnValue = false;
-            }else{
-            var id=$(this).val();
-                console.log(id);
-            $.post('/delete',{id:id},function(){
-                window.location.reload(true);
-            });
-            }
-        });
-
 	});
   </script>
   <body>
@@ -53,7 +39,8 @@
               <table id="accountListTb" class="table table-bordered">
                   <thead>
                       <tr>
-                          <th>帐号</th>
+                          <th class="main" style="width:30px">分组</th>
+                          <th class="main">帐号</th>
                           <th class="main">用户名</th>
                           <th class="main">瞄币</th>
                           <th class="main">粮草 (最大值)</th>
@@ -71,7 +58,8 @@
                   <% if (accountList.length>0) { %>
                       <% accountList.forEach(function(account,index){  %>
                          <tr data-id="<%= account['account_id'] %>">
-                             <td data-field="name" data-type="<%= account['type'] %>" class="account_type_<%= account['type'] %>"><%= account["account_name"] %></td>
+                             <td class="main"><input style="width: 8px" data-field="pc_group" type="text" value="<%= account["pc_group"] %>" /> </td>
+                             <td data-field="name" data-type="<%= account['type'] %>" class="main account_type_<%= account['type'] %>"><%= account["account_name"] %></td>
                              <td class="main"><%= account["account_gamename"] %></td>
                              <td class="main" data-field="money"><%= account["account_money"] %></td>
                              <td class="main"><%= account["account_food"] %>&nbsp;&nbsp;(<%= account["account_maxfood"] %>)</td>
