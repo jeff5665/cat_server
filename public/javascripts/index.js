@@ -151,6 +151,39 @@ var w_expend= { //功勋对应猫粮消耗
             $(this).text(totalMoney);
         });
 
+        var groupMoney=(function(pc_group){//根据账号分组统计账号喵喵点
+            var groupArr={};
+            $('#accountListTb').find('tbody').find('tr').each(function(){
+                var _value=$(this).find('input[data-field="pc_group"]').val();
+                if(groupArr[_value]===undefined){
+                    groupArr[_value]=[];
+                    groupArr[_value].push($(this));
+                }else{
+                    groupArr[_value].push($(this));
+                }
+                });
+            var totalMoney=0;
+            if(groupArr[pc_group]!==undefined){
+                groupArr[pc_group].forEach(function($tr,index){
+                totalMoney+=parseInt($tr.find('td[data-field="money"]').text(),10);
+                });
+            }
+            return totalMoney
+        })
+
+        $('.J-money0').each(function(){
+            $(this).text(groupMoney("0"));
+        });
+        $('.J-money1').each(function(){
+            $(this).text(groupMoney("1"));
+        });
+        $('.J-money2').each(function(){
+            $(this).text(groupMoney("2"));
+        });
+        $('.J-money3').each(function(){
+            $(this).text(groupMoney("3"));
+        });
+
         $('#accountListTb').find('td[data-field="name"]').each(function(){
         });
 
