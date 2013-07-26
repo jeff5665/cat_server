@@ -43,7 +43,7 @@
                   <% if (accountList.length>0) { %>
                       <% accountList.forEach(function(account,index){  %>
                          <tr data-id="<%= account['account_id'] %>">
-                             <td class="main"><input style="width: 8px" data-field="pc_group" type="text" value="<%= account["pc_group"] %>" /> </td>
+                             <td class="main"><input style="width: 8px" data-field="pc_group" type="text" value="<%= account['pc_group'] %>" /> </td>
                              <td data-field="name" data-type="<%= account['type'] %>" class="main account_type_<%= account['type'] %>"><%= account["account_name"] %></td>
                              <td class="main"><%= account["account_gamename"] %></td>
                              <td class="main" data-field="money"><%= account["account_money"] %></td>
@@ -63,7 +63,13 @@
                   <% } %>
                   </tbody>
               </table>
-              <div class="well well-small">用户：<%= user_name %> 总瞄币：<span class="J-money">99999</span></div>
+              <div class="well well-small">
+                  用户：<%= user_name %> 总瞄币：<b class="J-money">99999</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  分组0：<span class="J-money0" style="color: #CC0000">null</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  分组1：<span class="J-money1" style="color: green">null</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  分组2：<span class="J-money2" style="color: #DDAA00">null</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  分组3：<span class="J-money3" style="color: dodgerblue">null</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
           </div>
       </div>
   </div>
